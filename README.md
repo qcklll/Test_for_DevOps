@@ -7,32 +7,23 @@
 
 > 1.Создать структуру каталога для Ansible проекта
 **Используем команды** `mkdir <directory_name>` и `touch file_name`
-`ansible_project`
-`│   inventory.ini`
-`│   playbook.yml`
-`│`
-`└───roles`
-`   ├───common`
-`   │   └───tasks`
-`   │           main.yml`
-`   │`
-`   ├───configure_dns`
-`   │   ├───tasks`
-`   │   │       main.yml`
-`   │   │`
-`   │   └───templates`
-`   │           dns-resolvconf.j2`
-`   │`
-`   ├───install_elk_stack`
-`   │   ├───files`
-`   │   │       docker-compose.yml`
-`   │   │`
-`   │   └───tasks`
-`   │           main.yml`
-`   │`
-`   └───install_packages`
-`       └───tasks`
-`               main.yml`
+```yaml
+├───ansible_project
+│   └───roles
+│       ├───common
+│       │   └───tasks
+│       ├───configure_dns
+│       │   ├───tasks
+│       │   └───templates
+│       ├───install_elk_stack
+│       │   ├───files
+│       │   └───tasks
+│       └───install_packages
+│           └───tasks
+└───my-python-app
+    └───my-python-app-chart
+        └───templates
+```
 
 1. Создание inventory.ini
 ```yaml
