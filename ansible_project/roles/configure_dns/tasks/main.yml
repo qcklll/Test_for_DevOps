@@ -1,0 +1,9 @@
+- name: Configure DNS
+  template:
+    src: dns-resolvconf.j2
+    dest: /etc/resolv.conf
+  vars:
+    dns_servers:
+      - 8.8.8.8
+      - 1.1.1.1
+  

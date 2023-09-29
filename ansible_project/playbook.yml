@@ -1,0 +1,15 @@
+---
+- hosts: ubuntu
+  tasks:
+    - name: Include the install_packages role
+      include_role:
+        name: install_packages
+
+    - name: Include the configure_dns role
+      include_role:
+        name: configure_dns
+
+    - name: Include the install_elk_stack role
+      include_role:
+        name: install_elk_stack
+
