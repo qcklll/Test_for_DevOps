@@ -63,3 +63,65 @@ server_ip_address ansible_ssh_user=root ansible_ssh_private_key_file=/root/.ssh/
 ansible-playbook -i inventory.ini playbook.yml
 ```
 
+
+# Задание №2.Kubernetes
+
+## 1. Написать приложение на Python, которое будет слушать порт 8080 и обрабатывать входящие запросы.
+```python
+from http.server import HTTPServer, BaseHTTPRequestHandler
+*app.py*
+class MyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        message = "Kubernetes!"
+        self.wfile.write(message.encode('utf-8'))
+
+if __name__ == '__main__':
+    host = '0.0.0.0'
+    port = 8080
+    server_address = (host, port)
+    httpd = HTTPServer(server_address, MyHandler)
+    print(f'Listening on {host}:{port}')
+    httpd.serve_forever()
+```
+## 2. Упаковать это приложение в Docker и загрузить его на Docker Hub.
+    2.1 Создать Dockerfile `touch Dockerfile`
+    ```Dockerfile
+        # my-python-app/Dockerfile
+        FROM python:3.8
+
+        WORKDIR /app
+        COPY app.py .
+
+        EXPOSE 8080
+
+        CMD ["python", "app.py"]
+    ```
+    2.1.1 Для запуска Dockerfile необходимо залогиниться в docker
+    `bash sudo docker login`
+    2.1.2 Соберём образ и запустим его `bash docker build -t my-python-app .` *Важно находится в директории с Dockerfile т.к мы указали ".", что означает использовать текущую директорию
+     `bash docker run -p 8080:8080 my-python-app`
+    Переходим на [local](localhost:8080) Завершить работу приложения можно нажав сочетание клавиш *ctrl+c*
+## 3. Создание Helm-чарта
+    3.1. Создайте структуру директорий Helm-чарта, включая файлы Chart.yaml, values.yaml, и каталоги templates и charts.
+
+    3.2. В каталоге templates, создайте следующие файлы:
+
+        + deployment.yaml: Опишите развертывание вашего контейнера в    Kubernetes Deployment.
+        + service.yaml: Опишите создание Kubernetes Service, который будет обслуживать ваше приложение.
+        + ingress.yaml: Опишите настройку ингреса для вашего приложения, чтобы можно было получить к нему доступ извне.
+    3.3. В файле values.yaml укажите параметры вашего Helm-чарта, такие как имя образа, версия и настройки ингреса.
+## 4 Установка Helm-чарта в Kubernetes
+    4.1 Установить kubernetes 
+`bash sudo apt install -y kubectl kubeadm kubelet kubernetes-cni`
+    4.2 Установить Helm Чарт, используя команду `helm install my-python-app ./my-python-app-chart`
+## 5 Проверка приложения  
+`bash kubectl get nodes`
+`bash kubectl get pods`
+`bash kubectl get ingress`
+
+
+
+
